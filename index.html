@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="交通費集計">
+<meta name="theme-color" content="#1A56A0">
+<link rel="apple-touch-icon" href="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEPERETFhwXExQaFRERGCEYGh0dHx8fExciJCIeJBweHx7/2wBDAQUFBQcGBw4ICA4eFBEUHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/wAARCABwAHcDASIAAhEBAxEB/8QAHQABAAICAwEBAAAAAAAAAAAAAAcIBQYBBAkCA//EAEAQAAEDAwIDAwgGCQQDAAAAAAECAwQABQYHEQgSITFBgRMiMlFhcZGTFBcYQqHhFSVSU1RWscHRI5KU0iRVcv/EABsBAAMBAQEBAQAAAAAAAAAAAAAFBgQDBwEC/8QALxEAAQQABAUCBQQDAAAAAAAAAQACAwQFESExEhMUQWEyURUicZHwJEKBsaHR4f/aAAwDAQACEQMRAD8AuXSlKEJSlKEJSlKEJSlKEJSlKEJSlKEJSlKEJSlKEJSlKEJSlKEL8ZspiFDelyXA2yy2XHFHsCQNyaxLWUWuRiK8ogLXNt6WVvBTA3Kkp35th4GoS4x9Qv0TYUYbbJXLNnAKl8ivOQ127H1b9PCtO4Nc/TCuL+CXaSPokzdcMOq81K9uqBv2b+r1mmbMOe6rz/8AHhYnXGiblfmalE8S+m4JBduAI6EFjs/GuPtMabfvp/yPzqu/Exp4vB87dfio/VVyUX45A6IJ9JHv36+NRTTiHCak0Ye0nI+UvkvzxuLXZaK732mNNv30/wCR+dZnDdc8My3IY9jsqZ78t8nlHkdgABuSTv0FUIPQVbbhrxiJp3ppcdRsiZS1IkMFxryg2KWvugb9nMdvjXC7htavFxDMk6DXuuta7NM/I5Zd1KepGrmIYDcmLdfJL30l5HOENI5ike2tU+0xpt++n/I/Oqgag5RPzHLZ9/uCypyQ4ShJPRCB0SB4bVhYkd+XLaiRm1OvvLCG0JG5UT2AV3iwOEMHMJz7rk/E5OI8Gy9B9NdVMb1AmSY+PomLEZAU6641yoTv2DfftrBZJxA6fWG+S7RKlSXH4rhbcLTXMnmHaAd60u5LY0H0CRCbW2jJLqnrsRzeUI84+5O/41UZ1xbrqnXVlbiyVKUo7lRPeay1MLhsOc/Xg2Hnyu1i9JC1rf3d1dz7TGm376f8j86VSHspW74HW8/dZvik3hepFKUqQVAlYbNcigYrjE6+3J0Nx4rRV7VHuA95rM1ULjI1FF0vDeEWt3/xYSueaoHotzuT4dd610apszBnbv8ARZ7M4hjLlB2cZFMyvKp9/mqUXZbpUATvyp7k+ArGW6ZIt9wjz4jhbkRnEutLHcoHcGvwpV21jWt4RspcuJPEd1daU3atetCQ40pP6XjNnbb0mpKR6J9iulUvmxnocx6JIQUPMrKFpPcRUr8LuoYwrOUQJzhFpuhDTvXo2s+iv3detbZxfadfQcgjZfZYpMe6LDchLaegePYrx/tSesejsGA+l2rf9JhMOphEo9Q0Kjvh9wGRnmfRoymibbDUH5jm3QJB6J95O3T31JnGJnqFyo2n1meSiHCSky0tnoSB5qPcBt09Yrd8YiQNCNB3rtPUhN7noCtj6SnlDdKB/wDI3+FU/uc2TcrjIuEx1TsmS6p11ZO5KlHc/ia/UH6yyZj6W6D6+6+Snp4RGPU7Urr1N/CdjdjkZUrKciucGLHtxH0Zp90JLjv7XXuHT41CFcgqA6KUPcSKZWIjNGWA5ZrHDII3hxGeSupqtg2n2ot+but3z1LXkm/JtMtS2+RA79gfXWn/AFC6S/z8v/lNf4qrfMv9tf8AuNd2x26dervFtUBLrsmU6G20hR7TS9lCWJmTZiAPAWt1tkjszGCSrb4Xw76cqnpucS9yL0w1zIU35VCmySNuvKO7felSxpViMfCcJgWJkAutthUhf7bh6qPx3pU1Pcmc85PJCcx14w0ZtW10pXClBKSpRAAG5JrEtK0fW/OWcBwKZd90KmLBahtq+84R08BXnvcJcmfOemzHVPSH1lxxaj1Uo9pqUuJ3UFzNc8diRX+a0WwlmOlJ3SpX3l+PT4VEwBJCUgkk7ADvNWeFU+nh4nepym79jmyZDYLcNIMLl53nEKyR0kMc4ckudyGwdz8ezxrYOIvTZenuXhMNClWaakLir/ZIGykn27gnxqf+HvEY2m2mTuTXRH61uTYc2UOqEn0Ej8CazedWSJq/pZLhKCW7vF3cYUB1S4OoA9ihsPGsEmMcNwNB+Qaf9TBmEPdSM2X57KiySUqCknYg7gjuq7nDTm0PUPAEWa+NNSLhailDiXPO8okei517+2qUTYz8Ka9DkoLbzCyhaSOwg7Vtmjmay8EzqDeGFn6MVhuW33LbPaKaYjV6mH5dxqEspz8mTXY7qcuJrFtTM9y1uPaMZluWWAnlYV5RADqu9e2/w99RH9Rmqf8AKcr/AHo/7Vfe1zo1yt0e4Q3EuR5DaXG1pO4KSNxXZqehxeWBgja0ZBN5MPjlcXknVef/ANRmqf8AKcn5iP8AtWhXi3S7Rc5FtnteSlR18jqOYHlV6tx0q+/EHnrOCYDJktvBNxlpLENPfzEdVeG+9UBkPOyJDkh9ZW64orWonckk7mn2G25rTS94AHZK7sEcBDWnVfnVneDHTsuvu53c2vMRu1AQpPafvL/t41Amm+KzM0zKBj8IHd9wF1e3RCB2k16K4zZoOP2KHZrc2G40RoNoHsA7T7azY1c5UfKbuf6XbDa/G/mHYLI0pSpNPkqGOK3UFOJYQq0QZHJdbqC2gJPnNt/eV7PZ7qly83KHaLVJuc90NRYzSnXVHuSBua88dXsyk51nM6+PFQYKi3GQT0S2Oz/PjTXCafUTcTvS1YL9jlR5DcrUOpJJO5PUmpZ4YdP05tnjcmewXLTayHpG/orV91O/4+FRZCiyJ0xmHEZW8++sIbQgblRPqq8uK2WPpNpLGtLKWxdZKeZ5XepxQ84+0DrT7FrnTQ5DcpfhVJ1ucNAXV1TvyZ9zFri7JiRPN2T2FX5dlYzAb6qxX1t1e5jukIdHsPf4Vr61KWsrWSpRO5J7zXFQZcc8168ynG2vyMtMlq/GHp+zaryzm9oZ2g3IgSggeal3uV7Nxt8Kr1V88dTDzvA7hh15CXFFkoQpXaAQeVQ9oNUjzPH52L5PPsVwbU29EeKOo9IdxHsq2wW7z4uW7cf0vJ8aoOp2CFZzgx1CEy3vYPc5JMiMC7BKz6SN+qAfZuNh6gask+62yyt55aUNtpKlqUdgAOpJrzNxW9zMbyKDfICyiREdDidj2jvHiKvDl19k5/oBNu+IyAJMuFzKSnqUkbeVR7+ihS/FaPDOHjQOP2K60LXFEWncKq/EZn6s7z59yMtX6MgksRU79DsdirxO/hUZ1ytKkOKQsFK0khQPaD31InD5gbmeagRYjzJXbIhD8xRHm8oPRJ9/WqIcupB4aEn+eeXyVYjg/wBPUWDE1ZXcWNrjdUgs8w6tM923v7/dU918MNNsMoZaQlDaEhKUpGwAHdX3UPZndPKZHd1TwxCJgYOyUpSuC6qsnGXqL9GitYJa3v8AVeAdnLSfRT3I/ofGqo9AKv7kOhmnl/vUm8XW3S5EySvndWZaxufdv0rH/Z00r/8ATSf+Y5/mqOlidWtEGAHPv9Uns0p5pC7MKHuDnT8zbq9nV1ZCYUHzYZWOinO9Xh0+NSDnd8XfL668lZMds8jKd+mw7/GphtWLWa14u3jVvjGPbW0cgbQsg7e09prHfV7jH8I785VJMQsutyl/bsqbAn18PbnICXKEKVN/1e4x/COfNVT6vcY/hHPmqrByyqH49W9j+fyofx66PWe7sT2FEFtXnAH0k94rrcW+EIyTGImoFkZDr0ZsJlBA6qa9fh/epp+r3GP4R35qqy8PHrZFsz1oQyVwngUrbWoqBB7R1rXSmfVlDwkeNT1sQjyaCHLzM3qfuD/URNiyNeIXR0C33NW7BUejbu3Z7j/U1OC+HXSxSyo2aSCTv0lrA/rX3E4fNMokpqVHtUtt5lYW2oTHN0kHcHtqjs4rVsRGNwOqkYaE8UgeCFXfim05cxjPE3C0xCbfeF8zSG09EuntT4nr41ZPh0wFOCYDHZkNpFzmgPyld4JHRO/s/vW9XSxWu6R4rFxiIlIiuIdZ8p1KVJ22O/r6VkgABtSmxiD5oGwntv59lviqNjlMg7pSlKXLYlKUoQlKUoQlKUoQlKUoQlKUoQlKUoQlKUoQlKUoQlKUoQv/2Q==">
+<title>交通費集計</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{
+ --blue:#1A56A0;--blue-light:#E8F0FA;--red:#D84040;
+ --bg:#F5F7FA;--surface:#fff;--border:#E2E8F0;
+ --text:#1a202c;--muted:#718096;--sub:#A0AEC0;
+ --radius:12px;--radius-sm:8px;
+}
+html,body{height:100%;overflow:hidden}
+body{font-family:-apple-system,BlinkMacSystemFont,'Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif;background:var(--bg);color:var(--text)}
+#app{display:flex;flex-direction:column;height:100vh;height:100dvh;max-width:480px;margin:0 auto;background:var(--bg)}
+
+/* Header */
+.header{display:flex;align-items:center;gap:10px;padding:12px 16px;background:var(--blue);color:#fff;flex-shrink:0}
+.header img{width:34px;height:34px;object-fit:contain;border-radius:6px;background:#fff;padding:2px}
+.header-title{font-size:16px;font-weight:700;letter-spacing:0.02em}
+.header-sub{font-size:10px;opacity:0.75;margin-top:1px}
+
+/* Scroll area */
+.scroll-area{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:0 0 16px}
+
+/* Tab bar */
+.tabbar{display:flex;background:var(--surface);border-top:1px solid var(--border);flex-shrink:0;padding-bottom:env(safe-area-inset-bottom)}
+.tab{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:10px 0 8px;font-size:10px;color:var(--muted);border:none;background:none;cursor:pointer;transition:color .15s}
+.tab svg{width:22px;height:22px;stroke-width:1.7}
+.tab.active{color:var(--blue)}
+
+/* Pane */
+.pane{display:none;padding:14px 16px}
+.pane.active{display:block}
+
+/* Section label */
+.slabel{font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin:16px 0 8px}
+.slabel:first-child{margin-top:0}
+
+/* Calendar */
+.cal-wrap{background:var(--surface);border-radius:var(--radius);padding:14px;margin-bottom:4px}
+.cal-nav-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.cal-nav{width:32px;height:32px;border-radius:50%;border:1px solid var(--border);background:none;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--text)}
+.cal-title{font-size:15px;font-weight:600}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px}
+.cdn{text-align:center;font-size:10px;color:var(--muted);padding:3px 0;font-weight:500}
+.cd{text-align:center;padding:7px 2px;font-size:13px;border-radius:8px;cursor:pointer;color:var(--text);position:relative;transition:background .1s}
+.cd:active{background:#E2E8F0}
+.cd.sel{background:var(--blue);color:#fff;font-weight:600}
+.cd.today{color:var(--blue);font-weight:600}
+.cd.today.sel{color:#fff}
+.cd.dot::after{content:'';position:absolute;bottom:2px;left:50%;transform:translateX(-50%);width:4px;height:4px;border-radius:50%;background:var(--red)}
+.cd.sel.dot::after{background:#fff}
+
+/* Transport buttons */
+.t-row{display:flex;gap:8px;margin-bottom:4px}
+.tbtn{flex:1;padding:12px 4px 10px;border:1.5px solid var(--border);border-radius:var(--radius);background:var(--surface);cursor:pointer;font-size:11px;color:var(--muted);display:flex;flex-direction:column;align-items:center;gap:5px;transition:all .15s;font-family:inherit}
+.tbtn svg{width:26px;height:26px;stroke-width:1.6}
+.tbtn.active{border-color:var(--blue);background:var(--blue-light);color:var(--blue)}
+
+/* Input fields */
+.field{background:var(--surface);border-radius:var(--radius);padding:0 14px;margin-bottom:8px}
+.field-row{display:flex;align-items:center;gap:10px;padding:13px 0;border-bottom:1px solid var(--border)}
+.field-row:last-child{border-bottom:none}
+.field-label{font-size:13px;color:var(--muted);white-space:nowrap;min-width:70px}
+.field-row input{flex:1;border:none;outline:none;font-size:15px;background:transparent;color:var(--text);font-family:inherit;text-align:right}
+.field-row input::placeholder{color:var(--sub)}
+.field-unit{font-size:13px;color:var(--muted)}
+
+/* Preview */
+.preview{background:var(--blue-light);border-radius:var(--radius-sm);padding:12px 14px;margin-bottom:14px;font-size:13px;color:var(--blue);text-align:center}
+.preview b{font-size:18px;font-weight:700}
+
+/* Add button */
+.add-btn{width:100%;padding:15px;background:var(--blue);color:#fff;border:none;border-radius:var(--radius);font-size:15px;font-weight:600;cursor:pointer;font-family:inherit;letter-spacing:.02em;active:opacity .15s}
+.add-btn:active{opacity:.85}
+
+/* Summary */
+.month-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.month-label{font-size:16px;font-weight:700}
+
+.sum-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.scard{background:var(--surface);border-radius:var(--radius);padding:14px}
+.scard-label{font-size:11px;color:var(--muted);margin-bottom:5px;display:flex;align-items:center;gap:4px}
+.scard-label svg{width:14px;height:14px;stroke-width:2}
+.scard-val{font-size:20px;font-weight:700;color:var(--text)}
+.scard-sub{font-size:11px;color:var(--sub);margin-top:2px}
+.scard.total{background:var(--blue);grid-column:1/-1}
+.scard.total .scard-label{color:rgba(255,255,255,.7)}
+.scard.total .scard-val{color:#fff;font-size:28px}
+.scard.total .scard-sub{color:rgba(255,255,255,.6)}
+
+.entries-wrap{background:var(--surface);border-radius:var(--radius);overflow:hidden}
+.entry-row{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid var(--border)}
+.entry-row:last-child{border-bottom:none}
+.entry-date{font-size:20px;font-weight:700;color:var(--text);min-width:28px;text-align:center}
+.entry-date-m{font-size:10px;color:var(--muted);text-align:center;margin-top:1px}
+.entry-body{flex:1}
+.badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:600}
+.badge-car{background:#DBEAFE;color:#1d4ed8}
+.badge-bike{background:#DCFCE7;color:#166534}
+.badge-transit{background:#FEF3C7;color:#92400e}
+.entry-detail{font-size:12px;color:var(--muted);margin-top:3px}
+.entry-cost{font-size:15px;font-weight:700;color:var(--text)}
+.del-btn{background:none;border:none;cursor:pointer;color:var(--sub);padding:4px;border-radius:6px}
+.del-btn:active{color:var(--red)}
+.del-btn svg{width:18px;height:18px;stroke-width:1.8}
+
+/* Settings */
+.set-card{background:var(--surface);border-radius:var(--radius);padding:0 14px;margin-bottom:12px}
+.set-row{display:flex;align-items:center;gap:10px;padding:13px 0;border-bottom:1px solid var(--border)}
+.set-row:last-child{border-bottom:none}
+.set-label{font-size:13px;color:var(--muted);flex:1;display:flex;align-items:center;gap:6px}
+.set-label svg{width:16px;height:16px;stroke-width:1.8}
+.set-row input{width:80px;border:1px solid var(--border);border-radius:var(--radius-sm);padding:6px 8px;font-size:14px;text-align:right;font-family:inherit;background:var(--bg);color:var(--text)}
+.set-unit{font-size:13px;color:var(--muted);min-width:28px}
+.save-btn{width:100%;padding:14px;background:none;border:1.5px solid var(--blue);color:var(--blue);border-radius:var(--radius);font-size:15px;font-weight:600;cursor:pointer;font-family:inherit}
+.save-btn:active{background:var(--blue-light)}
+
+.empty{text-align:center;padding:32px 0;color:var(--sub);font-size:13px}
+
+/* Toast */
+.toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.8);color:#fff;padding:10px 20px;border-radius:24px;font-size:13px;font-weight:500;opacity:0;transition:opacity .25s;pointer-events:none;z-index:999;white-space:nowrap}
+.toast.show{opacity:1}
+</style>
+</head>
+<body>
+<div id="app">
+ <div class="header">
+ <img src="data:image/jpeg;base64,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" alt="ATS">
+ <div>
+ <div class="header-title">交通費集計</div>
+ <div class="header-sub">Transportation Expense Tracker</div>
+ </div>
+ </div>
+
+ <div class="scroll-area" id="scroll-area">
+ <!-- 入力 pane -->
+ <div class="pane active" id="pane-input">
+ <div class="slabel">日付を選択</div>
+ <div class="cal-wrap">
+ <div class="cal-nav-row">
+ <button class="cal-nav" onclick="chM(-1)">‹</button>
+ <span class="cal-title" id="cal-lbl"></span>
+ <button class="cal-nav" onclick="chM(1)">›</button>
+ </div>
+ <div class="cal-grid" id="cal-grid"></div>
+ </div>
+
+ <div class="slabel">移動手段</div>
+ <div class="t-row">
+ <button class="tbtn active" id="tbtn-car" onclick="selTransport('car')">
+ <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 10l1.5-4.5A2 2 0 016.4 4h11.2a2 2 0 011.9 1.5L21 10M3 10h18M3 10v6h2m16-6v6h-2M5 16h14M7 16v2M17 16v2"/><circle cx="7.5" cy="16.5" r="1.5"/><circle cx="16.5" cy="16.5" r="1.5"/></svg>
+ 車
+ </button>
+ <button class="tbtn" id="tbtn-bike" onclick="selTransport('bike')">
+ <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="5" cy="17" r="3"/><circle cx="19" cy="17" r="3"/><path d="M5 17l4-10h5l2 4-5 1-2-3"/><path d="M14 7h3l2 4"/></svg>
+ バイク
+ </button>
+ <button class="tbtn" id="tbtn-transit" onclick="selTransport('transit')">
+ <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="4" y="3" width="16" height="14" rx="2"/><path d="M4 11h16M8 17l-2 4M16 17l2 4M10 21h4"/><circle cx="9" cy="14" r="1"/><circle cx="15" cy="14" r="1"/></svg>
+ 公共交通
+ </button>
+ </div>
+
+ <div id="blk-dist">
+ <div class="slabel">距離</div>
+ <div class="field">
+ <div class="field-row">
+ <span class="field-label">走行距離</span>
+ <input type="number" id="inp-dist" min="0" step="0.1" placeholder="0.0" oninput="updPrev()">
+ <span class="field-unit">km</span>
+ </div>
+ </div>
+ </div>
+ <div id="blk-amt" style="display:none">
+ <div class="slabel">金額</div>
+ <div class="field">
+ <div class="field-row">
+ <span class="field-label">交通費</span>
+ <input type="number" id="inp-amt" min="0" step="1" placeholder="0">
+ <span class="field-unit">円</span>
+ </div>
+ </div>
+ </div>
+
+ <div class="field">
+ <div class="field-row">
+ <span class="field-label">メモ</span>
+ <input type="text" id="inp-memo" placeholder="任意">
+ </div>
+ </div>
+
+ <div class="preview" id="preview">費用を入力してください</div>
+ <button class="add-btn" onclick="addEntry()">＋ 記録を追加</button>
+ </div>
+
+ <!-- 集計 pane -->
+ <div class="pane" id="pane-sum">
+ <div class="month-row">
+ <button class="cal-nav" onclick="chSM(-1)">‹</button>
+ <span class="month-label" id="sum-lbl"></span>
+ <button class="cal-nav" onclick="chSM(1)">›</button>
+ </div>
+ <div class="sum-grid" id="sum-cards"></div>
+ <div class="slabel">明細</div>
+ <div id="entry-list"></div>
+ </div>
+
+ <!-- 設定 pane -->
+ <div class="pane" id="pane-set">
+ <div class="slabel">燃費・ガソリン代設定</div>
+ <div class="set-card">
+ <div class="set-row">
+ <span class="set-label">
+ <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 10l1.5-4.5A2 2 0 016.4 4h11.2a2 2 0 011.9 1.5L21 10M3 10h18M3 10v6h2m16-6v6h-2M5 16h14"/><circle cx="7.5" cy="16.5" r="1.5"/><circle cx="16.5" cy="16.5" r="1.5"/></svg>
+ 車の燃費
+ </span>
+ <input type="number" id="set-car" min="1" step="0.1">
+ <span class="set-unit">km/L</span>
+ </div>
+ <div class="set-row">
+ <span class="set-label">
+ <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="5" cy="17" r="3"/><circle cx="19" cy="17" r="3"/><path d="M5 17l4-10h5l2 4-5 1-2-3"/></svg>
+ バイクの燃費
+ </span>
+ <input type="number" id="set-bike" min="1" step="0.1">
+ <span class="set-unit">km/L</span>
+ </div>
+ <div class="set-row">
+ <span class="set-label">
+ <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M5 3v18M5 6h8a4 4 0 010 8H5M14 14l5 7"/></svg>
+ ガソリン代
+ </span>
+ <input type="number" id="set-fuel" min="1" step="1">
+ <span class="set-unit">円/L</span>
+ </div>
+ </div>
+ <button class="save-btn" onclick="saveSet()">保存する</button>
+ </div>
+ </div>
+
+ <nav class="tabbar">
+ <button class="tab active" id="tab-input" onclick="swTab('input')">
+ <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="9"/><path d="M12 8v4m0 4h.01"/></svg>
+ 入力
+ </button>
+ <button class="tab" id="tab-sum" onclick="swTab('sum')">
+ <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 3v18h18"/><path d="M7 16l4-6 4 4 4-8"/></svg>
+ 集計
+ </button>
+ <button class="tab" id="tab-set" onclick="swTab('set')">
+ <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="3"/><path d="M12 2v2m0 16v2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M2 12h2m16 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+ 設定
+ </button>
+ </nav>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const SK='ats_v2_entries', SS='ats_v2_settings';
+let cfg={carKm:10,bikeKm:20,fuel:170};
+let entries=[];
+let cY,cM,selDate,transport="car",sY,sM;
+
+function load(){
+ try{const s=localStorage.getItem(SS);if(s)cfg={...cfg,...JSON.parse(s)};}catch(e){}
+ try{const e=localStorage.getItem(SK);if(e)entries=JSON.parse(e);}catch(e){}
+}
+function save(){try{localStorage.setItem(SK,JSON.stringify(entries));}catch(e){}}
+
+function init(){
+ load();
+ const n=new Date();
+ cY=n.getFullYear();cM=n.getMonth();
+ sY=cY;sM=cM;
+ selDate=fmt(cY,cM+1,n.getDate());
+ rCal();rSet();rSum();updPrev();
+}
+
+function fmt(y,m,d){return y+'-'+String(m).padStart(2,'0')+'-'+String(d).padStart(2,'0');}
+
+function chM(d){cM+=d;if(cM>11){cM=0;cY++;}if(cM<0){cM=11;cY--;}rCal();}
+function chSM(d){sM+=d;if(sM>11){sM=0;sY++;}if(sM<0){sM=11;sY--;}rSum();}
+
+function rCal(){
+ document.getElementById('cal-lbl').textContent=cY+'年 '+(cM+1)+'月';
+ const g=document.getElementById('cal-grid');g.innerHTML='';
+ ['日','月','火','水','木','金','土'].forEach(d=>{
+ const e=document.createElement('div');e.className='cdn';e.textContent=d;g.appendChild(e);
+ });
+ const first=new Date(cY,cM,1).getDay();
+ const days=new Date(cY,cM+1,0).getDate();
+ const today=new Date();
+ const dSet=new Set(entries.map(e=>e.date));
+ for(let i=0;i<first;i++){const e=document.createElement('div');g.appendChild(e);}
+ for(let d=1;d<=days;d++){
+ const ds=fmt(cY,cM+1,d);
+ const e=document.createElement('div');e.className='cd';e.textContent=d;
+ if(today.getFullYear()===cY&&today.getMonth()===cM&&today.getDate()===d)e.classList.add('today');
+ if(selDate===ds)e.classList.add('sel');
+ if(dSet.has(ds))e.classList.add('dot');
+ e.onclick=()=>{selDate=ds;rCal();updPrev();};
+ g.appendChild(e);
+ }
+}
+
+function selTransport(t){
+ transport=t;
+ ['car','bike','transit'].forEach(k=>document.getElementById('tbtn-'+k).classList.toggle('active',k===t));
+ const v=t==='car'||t==='bike';
+ document.getElementById('blk-dist').style.display=v?'':'none';
+ document.getElementById('blk-amt').style.display=v?'none':'';
+ updPrev();
+}
+
+function calcCost(t,v){
+ if(t==='car')return Math.round((v/cfg.carKm)*cfg.fuel);
+ if(t==='bike')return Math.round((v/cfg.bikeKm)*cfg.fuel);
+ return v;
+}
+
+function updPrev(){
+ const p=document.getElementById('preview');
+ if(transport==='car'||transport==='bike'){
+ const d=parseFloat(document.getElementById('inp-dist').value)||0;
+ if(d<=0){p.innerHTML='距離を入力してください';return;}
+ const km=transport==='car'?cfg.carKm:cfg.bikeKm;
+ const L=(d/km).toFixed(2);
+ const c=calcCost(transport,d);
+ p.innerHTML=d+'km → '+L+'L × '+cfg.fuel+'円 = <b>'+c.toLocaleString()+'円</b>';
+ } else {
+ const a=parseInt(document.getElementById('inp-amt').value)||0;
+ if(a<=0){p.innerHTML='金額を入力してください';return;}
+ p.innerHTML='交通費: <b>'+a.toLocaleString()+'円</b>';
+ }
+}
+
+function addEntry(){
+ if(!selDate){toast('日付を選択してください');return;}
+ let value=0,cost=0;
+ if(transport==='car'||transport==='bike'){
+ value=parseFloat(document.getElementById('inp-dist').value)||0;
+ if(value<=0){toast('距離を入力してください');return;}
+ cost=calcCost(transport,value);
+ } else {
+ value=parseInt(document.getElementById('inp-amt').value)||0;
+ if(value<=0){toast('金額を入力してください');return;}
+ cost=value;
+ }
+ const memo=document.getElementById('inp-memo').value.trim();
+ entries.push({id:Date.now(),date:selDate,transport:transport,value,cost,memo});
+ entries.sort((a,b)=>a.date.localeCompare(b.date));
+ save();
+ document.getElementById('inp-dist').value='';
+ document.getElementById('inp-amt').value='';
+ document.getElementById('inp-memo').value='';
+ updPrev();rCal();
+ toast('追加しました ✓');
+}
+
+function delEntry(id){
+ if(!confirm('この記録を削除しますか？'))return;
+ entries=entries.filter(e=>e.id!==id);
+ save();rCal();rSum();
+}
+
+function rSum(){
+ document.getElementById('sum-lbl').textContent=sY+'年 '+(sM+1)+'月';
+ const f=entries.filter(e=>{const[y,m]=e.date.split('-').map(Number);return y===sY&&m===sM+1;});
+ const tot=f.reduce((s,e)=>s+e.cost,0);
+ const cT=f.filter(e=>e.transport==='car').reduce((s,e)=>s+e.cost,0);
+ const bT=f.filter(e=>e.transport==='bike').reduce((s,e)=>s+e.cost,0);
+ const tT=f.filter(e=>e.transport==='transit').reduce((s,e)=>s+e.cost,0);
+ const tn={car:'車',bike:'バイク',transit:'公共交通'};
+
+ document.getElementById('sum-cards').innerHTML=
+ '<div class="scard total"><div class="scard-label">月合計</div><div class="scard-val">¥'+tot.toLocaleString()+'</div><div class="scard-sub">'+f.length+'件</div></div>'+
+ '<div class="scard"><div class="scard-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="14" height="14" stroke-width="2"><path d="M3 10l1.5-4.5h15L21 10M3 10h18v6H3z"/><circle cx="7" cy="17" r="1.5"/><circle cx="17" cy="17" r="1.5"/></svg> 車</div><div class="scard-val">¥'+cT.toLocaleString()+'</div></div>'+
+ '<div class="scard"><div class="scard-label">🏍 バイク</div><div class="scard-val">¥'+bT.toLocaleString()+'</div></div>'+
+ '<div class="scard"><div class="scard-label">🚃 公共交通</div><div class="scard-val">¥'+tT.toLocaleString()+'</div></div>';
+
+ const el=document.getElementById('entry-list');
+ if(f.length===0){el.innerHTML='<div class="empty">この月の記録はありません</div>';return;}
+ const tBadge={car:'badge-car',bike:'badge-bike',transit:'badge-transit'};
+ el.innerHTML='<div class="entries-wrap">'+f.map(e=>{
+ const d=e.date.split('-')[2];
+ const mo=e.date.split('-')[1];
+ const det=(e.transport==='car'||e.transport==='bike')?e.value+'km走行':'直接入力';
+ return '<div class="entry-row">'+
+ '<div><div class="entry-date">'+d+'</div><div class="entry-date-m">'+mo+'/'+d+'</div></div>'+
+ '<div class="entry-body">'+
+ '<span class="badge '+tBadge[e.transport]+'">'+tn[e.transport]+'</span>'+
+ '<div class="entry-detail">'+det+(e.memo?' · '+e.memo:'')+'</div>'+
+ '</div>'+
+ '<div class="entry-cost">¥'+e.cost.toLocaleString()+'</div>'+
+ '<button class="del-btn" onclick="delEntry('+e.id+')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/></svg></button>'+
+ '</div>';
+ }).join('')+'</div>';
+}
+
+function rSet(){
+ document.getElementById('set-car').value=cfg.carKm;
+ document.getElementById('set-bike').value=cfg.bikeKm;
+ document.getElementById('set-fuel').value=cfg.fuel;
+}
+
+function saveSet(){
+ cfg.carKm=parseFloat(document.getElementById('set-car').value)||10;
+ cfg.bikeKm=parseFloat(document.getElementById('set-bike').value)||20;
+ cfg.fuel=parseFloat(document.getElementById('set-fuel').value)||170;
+ try{localStorage.setItem(SS,JSON.stringify(cfg));}catch(e){}
+ updPrev();toast('設定を保存しました ✓');
+}
+
+function swTab(t){
+ ['input','sum','set'].forEach(k=>{
+ document.getElementById('pane-'+k).classList.toggle('active',k===t);
+ document.getElementById('tab-'+k).classList.toggle('active',k===t);
+ });
+ if(t==='sum')rSum();
+ document.getElementById('scroll-area').scrollTop=0;
+}
+
+function toast(msg){
+ const el=document.getElementById('toast');
+ el.textContent=msg;el.classList.add('show');
+ setTimeout(()=>el.classList.remove('show'),2200);
+}
+
+init();
+</script>
+</body>
+</html>
