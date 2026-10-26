@@ -83,35 +83,35 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Hiragino Kaku Gothic ProN','N
 .add-btn:active{opacity:.85}
 
 /* Summary */
-.month-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.month-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
 .month-label{font-size:16px;font-weight:700}
 
-.sum-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
-.scard{background:var(--surface);border-radius:var(--radius);padding:14px}
-.scard-label{font-size:11px;color:var(--muted);margin-bottom:5px;display:flex;align-items:center;gap:4px}
-.scard-label svg{width:14px;height:14px;stroke-width:2}
-.scard-val{font-size:20px;font-weight:700;color:var(--text)}
-.scard-sub{font-size:11px;color:var(--sub);margin-top:2px}
-.scard.total{background:var(--blue);grid-column:1/-1}
-.scard.total .scard-label{color:rgba(255,255,255,.7)}
-.scard.total .scard-val{color:#fff;font-size:28px}
-.scard.total .scard-sub{color:rgba(255,255,255,.6)}
+.sum-top{background:var(--blue);color:#fff;border-radius:var(--radius);padding:10px 14px;margin-bottom:8px}
+.sum-top-row{display:flex;align-items:baseline;justify-content:space-between}
+.sum-top-label{font-size:11px;opacity:.75}
+.sum-top-val{font-size:24px;font-weight:700}
+.sum-top-sub{font-size:12px;opacity:.85}
+.sum-break{display:flex;gap:6px;margin-top:6px;font-size:11px}
+.sum-break span{flex:1;background:rgba(255,255,255,.15);border-radius:6px;padding:3px 0;text-align:center}
 
 .entries-wrap{background:var(--surface);border-radius:var(--radius);overflow:hidden}
-.entry-row{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid var(--border)}
-.entry-row:last-child{border-bottom:none}
-.entry-date{font-size:20px;font-weight:700;color:var(--text);min-width:28px;text-align:center}
-.entry-date-m{font-size:10px;color:var(--muted);text-align:center;margin-top:1px}
-.entry-body{flex:1}
-.badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:600}
+.erow{display:flex;align-items:center;gap:6px;padding:5px 10px;border-bottom:1px solid var(--border);font-size:12px;line-height:1.3}
+.erow:last-child{border-bottom:none}
+.erow-date{font-weight:700;min-width:58px;white-space:nowrap}
+.erow-t{min-width:44px;text-align:center}
+.erow-det{flex:1;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.erow-cost{font-weight:700;white-space:nowrap}
+.badge{display:inline-block;padding:1px 6px;border-radius:20px;font-size:10px;font-weight:600}
 .badge-car{background:#DBEAFE;color:#1d4ed8}
 .badge-bike{background:#DCFCE7;color:#166534}
 .badge-transit{background:#FEF3C7;color:#92400e}
-.entry-detail{font-size:12px;color:var(--muted);margin-top:3px}
-.entry-cost{font-size:15px;font-weight:700;color:var(--text)}
-.del-btn{background:none;border:none;cursor:pointer;color:var(--sub);padding:4px;border-radius:6px}
+.del-btn{background:none;border:none;cursor:pointer;color:var(--sub);padding:2px;border-radius:6px;display:flex}
 .del-btn:active{color:var(--red)}
-.del-btn svg{width:18px;height:18px;stroke-width:1.8}
+.del-btn svg{width:15px;height:15px;stroke-width:1.8}
+.img-btn{width:100%;margin-top:10px;padding:12px;background:var(--blue);color:#fff;border:none;border-radius:var(--radius);font-size:14px;font-weight:600;cursor:pointer;font-family:inherit}
+.img-btn:active{opacity:.85}
+.img-note{font-size:11px;color:var(--muted);text-align:center;margin-top:6px}
+.ver{font-size:10px;color:var(--sub);text-align:center;margin-top:10px}
 
 /* Settings */
 .set-card{background:var(--surface);border-radius:var(--radius);padding:0 14px;margin-bottom:12px}
@@ -209,9 +209,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Hiragino Kaku Gothic ProN','N
  <span class="month-label" id="sum-lbl"></span>
  <button class="cal-nav" onclick="chSM(1)">›</button>
  </div>
- <div class="sum-grid" id="sum-cards"></div>
- <div class="slabel">明細</div>
+ <div id="sum-cards"></div>
  <div id="entry-list"></div>
+ <button class="img-btn" onclick="saveImg()">明細ごと画像で保存</button>
+ <div class="img-note">件数が多くても1枚に全部入ります。この画像を森さんに送ってください</div>
+ <div class="ver">V2</div>
  </div>
 
  <!-- 設定 pane -->
@@ -372,38 +374,89 @@ function delEntry(id){
  save();rCal();rSum();
 }
 
+const WD=['日','月','火','水','木','金','土'];
+const TN={car:'車',bike:'バイク',transit:'公共交通'};
+function monthData(){
+ const f=entries.filter(e=>{const[y,m]=e.date.split('-').map(Number);return y===sY&&m===sM+1;});
+ const sumT=t=>f.filter(e=>e.transport===t).reduce((s,e)=>s+e.cost,0);
+ return {f,tot:f.reduce((s,e)=>s+e.cost,0),days:new Set(f.map(e=>e.date)).size,
+  car:sumT('car'),bike:sumT('bike'),transit:sumT('transit')};
+}
+function dLabel(ds){
+ const[y,m,d]=ds.split('-').map(Number);
+ return m+'/'+d+'('+WD[new Date(y,m-1,d).getDay()]+')';
+}
+function detail(e){
+ return ((e.transport==='car'||e.transport==='bike')?e.value+'km':'')+(e.memo?((e.transport==='transit'?'':' ')+e.memo):'');
+}
+function esc(t){return String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+
 function rSum(){
  document.getElementById('sum-lbl').textContent=sY+'年 '+(sM+1)+'月';
- const f=entries.filter(e=>{const[y,m]=e.date.split('-').map(Number);return y===sY&&m===sM+1;});
- const tot=f.reduce((s,e)=>s+e.cost,0);
- const cT=f.filter(e=>e.transport==='car').reduce((s,e)=>s+e.cost,0);
- const bT=f.filter(e=>e.transport==='bike').reduce((s,e)=>s+e.cost,0);
- const tT=f.filter(e=>e.transport==='transit').reduce((s,e)=>s+e.cost,0);
- const tn={car:'車',bike:'バイク',transit:'公共交通'};
-
+ const D=monthData();
  document.getElementById('sum-cards').innerHTML=
- '<div class="scard total"><div class="scard-label">月合計</div><div class="scard-val">¥'+tot.toLocaleString()+'</div><div class="scard-sub">'+f.length+'件</div></div>'+
- '<div class="scard"><div class="scard-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="14" height="14" stroke-width="2"><path d="M3 10l1.5-4.5h15L21 10M3 10h18v6H3z"/><circle cx="7" cy="17" r="1.5"/><circle cx="17" cy="17" r="1.5"/></svg> 車</div><div class="scard-val">¥'+cT.toLocaleString()+'</div></div>'+
- '<div class="scard"><div class="scard-label">🏍 バイク</div><div class="scard-val">¥'+bT.toLocaleString()+'</div></div>'+
- '<div class="scard"><div class="scard-label">🚃 公共交通</div><div class="scard-val">¥'+tT.toLocaleString()+'</div></div>';
+ '<div class="sum-top"><div class="sum-top-row"><span class="sum-top-label">月合計</span><span class="sum-top-sub">'+D.days+'日・'+D.f.length+'件</span></div>'+
+ '<div class="sum-top-val">¥'+D.tot.toLocaleString()+'</div>'+
+ '<div class="sum-break"><span>車 ¥'+D.car.toLocaleString()+'</span><span>バイク ¥'+D.bike.toLocaleString()+'</span><span>公共 ¥'+D.transit.toLocaleString()+'</span></div></div>';
 
  const el=document.getElementById('entry-list');
- if(f.length===0){el.innerHTML='<div class="empty">この月の記録はありません</div>';return;}
+ if(D.f.length===0){el.innerHTML='<div class="empty">この月の記録はありません</div>';return;}
  const tBadge={car:'badge-car',bike:'badge-bike',transit:'badge-transit'};
- el.innerHTML='<div class="entries-wrap">'+f.map(e=>{
- const d=e.date.split('-')[2];
- const mo=e.date.split('-')[1];
- const det=(e.transport==='car'||e.transport==='bike')?e.value+'km走行':'直接入力';
- return '<div class="entry-row">'+
- '<div><div class="entry-date">'+d+'</div><div class="entry-date-m">'+mo+'/'+d+'</div></div>'+
- '<div class="entry-body">'+
- '<span class="badge '+tBadge[e.transport]+'">'+tn[e.transport]+'</span>'+
- '<div class="entry-detail">'+det+(e.memo?' · '+e.memo:'')+'</div>'+
- '</div>'+
- '<div class="entry-cost">¥'+e.cost.toLocaleString()+'</div>'+
+ el.innerHTML='<div class="entries-wrap">'+D.f.map(e=>
+ '<div class="erow">'+
+ '<span class="erow-date">'+dLabel(e.date)+'</span>'+
+ '<span class="erow-t"><span class="badge '+tBadge[e.transport]+'">'+TN[e.transport]+'</span></span>'+
+ '<span class="erow-det">'+esc(detail(e))+'</span>'+
+ '<span class="erow-cost">¥'+e.cost.toLocaleString()+'</span>'+
  '<button class="del-btn" onclick="delEntry('+e.id+')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/></svg></button>'+
- '</div>';
- }).join('')+'</div>';
+ '</div>').join('')+'</div>';
+}
+
+function saveImg(){
+ const D=monthData();
+ if(D.f.length===0){toast('この月の記録はありません');return;}
+ const W=720,S=2,rowH=44,headH=230,pad=28;
+ const H=headH+D.f.length*rowH+70;
+ const c=document.createElement('canvas');c.width=W*S;c.height=H*S;
+ const x=c.getContext('2d');x.scale(S,S);
+ const F='-apple-system,"Hiragino Kaku Gothic ProN","Noto Sans JP",sans-serif';
+ x.fillStyle='#fff';x.fillRect(0,0,W,H);
+ x.fillStyle='#1A56A0';x.fillRect(0,0,W,150);
+ x.fillStyle='#fff';x.font='bold 26px '+F;x.textBaseline='top';
+ x.fillText('交通費集計　'+sY+'年'+(sM+1)+'月',pad,22);
+ x.font='bold 44px '+F;x.fillText('¥'+D.tot.toLocaleString(),pad,62);
+ x.font='20px '+F;x.textAlign='right';x.fillText(D.days+'日・'+D.f.length+'件',W-pad,80);
+ x.textAlign='left';x.fillStyle='#1a202c';x.font='18px '+F;
+ x.fillText('車 ¥'+D.car.toLocaleString()+'　　バイク ¥'+D.bike.toLocaleString()+'　　公共交通 ¥'+D.transit.toLocaleString(),pad,168);
+ x.fillStyle='#718096';x.font='15px '+F;
+ x.fillText('燃費 車'+cfg.carKm+'km/L・バイク'+cfg.bikeKm+'km/L　ガソリン'+cfg.fuel+'円/L',pad,196);
+ let y=headH;
+ x.strokeStyle='#E2E8F0';x.lineWidth=1;
+ D.f.forEach((e,i)=>{
+  if(i%2===0){x.fillStyle='#F5F7FA';x.fillRect(0,y,W,rowH);}
+  x.fillStyle='#1a202c';x.font='bold 19px '+F;x.textBaseline='middle';
+  x.fillText(dLabel(e.date),pad,y+rowH/2);
+  x.font='18px '+F;x.fillText(TN[e.transport],pad+120,y+rowH/2);
+  x.fillStyle='#4a5568';
+  let d=detail(e);while(d.length>1&&x.measureText(d).width>330)d=d.slice(0,-1);
+  x.fillText(d,pad+215,y+rowH/2);
+  x.fillStyle='#1a202c';x.font='bold 19px '+F;x.textAlign='right';
+  x.fillText('¥'+e.cost.toLocaleString(),W-pad,y+rowH/2);x.textAlign='left';
+  y+=rowH;
+ });
+ x.beginPath();x.moveTo(pad,y+8);x.lineTo(W-pad,y+8);x.stroke();
+ x.font='bold 22px '+F;x.fillStyle='#1A56A0';x.textBaseline='top';
+ x.fillText('合計',pad,y+20);x.textAlign='right';x.fillText('¥'+D.tot.toLocaleString(),W-pad,y+20);
+ const name='交通費_'+sY+'-'+String(sM+1).padStart(2,'0')+'.png';
+ c.toBlob(b=>{
+  const file=new File([b],name,{type:'image/png'});
+  if(navigator.canShare&&navigator.canShare({files:[file]})){
+   navigator.share({files:[file]}).catch(()=>{});
+  }else{
+   const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=name;a.click();
+   toast('画像を保存しました ✓');
+  }
+ },'image/png');
 }
 
 function rSet(){
