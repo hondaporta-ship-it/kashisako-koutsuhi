@@ -120,6 +120,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Hiragino Kaku Gothic ProN','N
 .set-label{font-size:13px;color:var(--muted);flex:1;display:flex;align-items:center;gap:6px}
 .set-label svg{width:16px;height:16px;stroke-width:1.8}
 .set-row input{width:80px;border:1px solid var(--border);border-radius:var(--radius-sm);padding:6px 8px;font-size:14px;text-align:right;font-family:inherit;background:var(--bg);color:var(--text)}
+.set-row input.set-name{width:auto;flex:1;min-width:0;text-align:left;font-size:15px}
+.sum-name{background:var(--surface);border-radius:var(--radius);padding:10px 14px;margin-bottom:8px;font-size:17px;font-weight:700}
+.sum-name small{font-size:11px;color:var(--muted);font-weight:500;margin-right:8px}
+.sum-name.warn{background:#FDECEC;color:var(--red);font-size:13px;cursor:pointer}
 .set-unit{font-size:13px;color:var(--muted);min-width:28px}
 .save-btn{width:100%;padding:14px;background:none;border:1.5px solid var(--blue);color:var(--blue);border-radius:var(--radius);font-size:15px;font-weight:600;cursor:pointer;font-family:inherit}
 .save-btn:active{background:var(--blue-light)}
@@ -213,11 +217,17 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Hiragino Kaku Gothic ProN','N
  <div id="entry-list"></div>
  <button class="img-btn" onclick="saveImg()">明細ごと画像で保存</button>
  <div class="img-note">件数が多くても1枚に全部入ります。この画像を森さんに送ってください</div>
- <div class="ver">V3</div>
+ <div class="ver">V4</div>
  </div>
 
  <!-- 設定 pane -->
  <div class="pane" id="pane-set">
+ <div class="slabel">名前</div>
+ <div class="set-card">
+ <div class="set-row">
+ <input type="text" id="set-name" class="set-name" placeholder="フルネームで入力（例：山田太郎）">
+ </div>
+ </div>
  <div class="slabel">燃費・ガソリン代設定</div>
  <div class="set-card">
  <div class="set-row">
@@ -268,7 +278,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Hiragino Kaku Gothic ProN','N
 
 <script>
 const SK='ats_v2_entries', SS='ats_v2_settings';
-let cfg={carKm:10,bikeKm:20,fuel:170};
+let cfg={carKm:10,bikeKm:20,fuel:170,name:''};
 let entries=[];
 let cY,cM,selDate,transport="car",sY,sM;
 
@@ -394,7 +404,9 @@ function esc(t){return String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','
 function rSum(){
  document.getElementById('sum-lbl').textContent=sY+'年 '+(sM+1)+'月';
  const D=monthData();
+ const nm=(cfg.name||'').trim();
  document.getElementById('sum-cards').innerHTML=
+ (nm?'<div class="sum-name"><small>名前</small>'+esc(nm)+'</div>':'<div class="sum-name warn" onclick="swTab(\'set\')">名前が未入力です。ここを押して設定画面で入れてください</div>')+
  '<div class="sum-top"><div class="sum-top-row"><span class="sum-top-label">月合計</span><span class="sum-top-label">出勤日数</span></div>'+
  '<div class="sum-top-row"><span class="sum-top-val">¥'+D.tot.toLocaleString()+'</span><span class="sum-top-val">'+D.days+'<small style="font-size:14px;font-weight:600"> 日</small></span></div>'+
  '<div class="sum-break"><span>車 ¥'+D.car.toLocaleString()+'</span><span>バイク ¥'+D.bike.toLocaleString()+'</span><span>公共 ¥'+D.transit.toLocaleString()+'</span></div></div>';
@@ -415,21 +427,24 @@ function rSum(){
 function saveImg(){
  const D=monthData();
  if(D.f.length===0){toast('この月の記録はありません');return;}
- const W=720,S=2,rowH=44,headH=230,pad=28;
+ const nm=(cfg.name||'').trim();
+ if(!nm){toast('先に設定で名前を入れてください');swTab('set');return;}
+ const W=720,S=2,rowH=44,headH=270,pad=28;
  const H=headH+D.f.length*rowH+70;
  const c=document.createElement('canvas');c.width=W*S;c.height=H*S;
  const x=c.getContext('2d');x.scale(S,S);
  const F='-apple-system,"Hiragino Kaku Gothic ProN","Noto Sans JP",sans-serif';
  x.fillStyle='#fff';x.fillRect(0,0,W,H);
- x.fillStyle='#1A56A0';x.fillRect(0,0,W,150);
- x.fillStyle='#fff';x.font='bold 26px '+F;x.textBaseline='top';
- x.fillText('交通費集計　'+sY+'年'+(sM+1)+'月',pad,22);
- x.font='bold 44px '+F;x.fillText('¥'+D.tot.toLocaleString(),pad,62);
- x.textAlign='right';x.font='18px '+F;x.fillText('出勤日数',W-pad,40);x.font='bold 40px '+F;x.fillText(D.days+'日',W-pad,66);
+ x.fillStyle='#1A56A0';x.fillRect(0,0,W,190);
+ x.fillStyle='#fff';x.textBaseline='top';x.font='bold 32px '+F;
+ x.fillText(nm,pad,20);
+ x.font='18px '+F;x.fillText('交通費集計　'+sY+'年'+(sM+1)+'月',pad,66);
+ x.font='bold 44px '+F;x.fillText('¥'+D.tot.toLocaleString(),pad,98);
+ x.textAlign='right';x.font='18px '+F;x.fillText('出勤日数',W-pad,76);x.font='bold 40px '+F;x.fillText(D.days+'日',W-pad,102);
  x.textAlign='left';x.fillStyle='#1a202c';x.font='18px '+F;
- x.fillText('車 ¥'+D.car.toLocaleString()+'　　バイク ¥'+D.bike.toLocaleString()+'　　公共交通 ¥'+D.transit.toLocaleString(),pad,168);
+ x.fillText('車 ¥'+D.car.toLocaleString()+'　　バイク ¥'+D.bike.toLocaleString()+'　　公共交通 ¥'+D.transit.toLocaleString(),pad,208);
  x.fillStyle='#718096';x.font='15px '+F;
- x.fillText('燃費 車'+cfg.carKm+'km/L・バイク'+cfg.bikeKm+'km/L　ガソリン'+cfg.fuel+'円/L',pad,196);
+ x.fillText('燃費 車'+cfg.carKm+'km/L・バイク'+cfg.bikeKm+'km/L　ガソリン'+cfg.fuel+'円/L',pad,236);
  let y=headH;
  x.strokeStyle='#E2E8F0';x.lineWidth=1;
  D.f.forEach((e,i)=>{
@@ -447,7 +462,7 @@ function saveImg(){
  x.beginPath();x.moveTo(pad,y+8);x.lineTo(W-pad,y+8);x.stroke();
  x.font='bold 22px '+F;x.fillStyle='#1A56A0';x.textBaseline='top';
  x.fillText('合計',pad,y+20);x.textAlign='right';x.fillText('¥'+D.tot.toLocaleString(),W-pad,y+20);
- const name='交通費_'+sY+'-'+String(sM+1).padStart(2,'0')+'.png';
+ const name='交通費_'+nm+'_'+sY+'-'+String(sM+1).padStart(2,'0')+'.png';
  c.toBlob(b=>{
   const file=new File([b],name,{type:'image/png'});
   if(navigator.canShare&&navigator.canShare({files:[file]})){
@@ -460,12 +475,14 @@ function saveImg(){
 }
 
 function rSet(){
+ document.getElementById('set-name').value=cfg.name||'';
  document.getElementById('set-car').value=cfg.carKm;
  document.getElementById('set-bike').value=cfg.bikeKm;
  document.getElementById('set-fuel').value=cfg.fuel;
 }
 
 function saveSet(){
+ cfg.name=document.getElementById('set-name').value.trim();
  cfg.carKm=parseFloat(document.getElementById('set-car').value)||10;
  cfg.bikeKm=parseFloat(document.getElementById('set-bike').value)||20;
  cfg.fuel=parseFloat(document.getElementById('set-fuel').value)||170;
