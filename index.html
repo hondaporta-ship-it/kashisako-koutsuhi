@@ -213,7 +213,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Hiragino Kaku Gothic ProN','N
  <div id="entry-list"></div>
  <button class="img-btn" onclick="saveImg()">明細ごと画像で保存</button>
  <div class="img-note">件数が多くても1枚に全部入ります。この画像を森さんに送ってください</div>
- <div class="ver">V2</div>
+ <div class="ver">V3</div>
  </div>
 
  <!-- 設定 pane -->
@@ -395,8 +395,8 @@ function rSum(){
  document.getElementById('sum-lbl').textContent=sY+'年 '+(sM+1)+'月';
  const D=monthData();
  document.getElementById('sum-cards').innerHTML=
- '<div class="sum-top"><div class="sum-top-row"><span class="sum-top-label">月合計</span><span class="sum-top-sub">'+D.days+'日・'+D.f.length+'件</span></div>'+
- '<div class="sum-top-val">¥'+D.tot.toLocaleString()+'</div>'+
+ '<div class="sum-top"><div class="sum-top-row"><span class="sum-top-label">月合計</span><span class="sum-top-label">出勤日数</span></div>'+
+ '<div class="sum-top-row"><span class="sum-top-val">¥'+D.tot.toLocaleString()+'</span><span class="sum-top-val">'+D.days+'<small style="font-size:14px;font-weight:600"> 日</small></span></div>'+
  '<div class="sum-break"><span>車 ¥'+D.car.toLocaleString()+'</span><span>バイク ¥'+D.bike.toLocaleString()+'</span><span>公共 ¥'+D.transit.toLocaleString()+'</span></div></div>';
 
  const el=document.getElementById('entry-list');
@@ -425,7 +425,7 @@ function saveImg(){
  x.fillStyle='#fff';x.font='bold 26px '+F;x.textBaseline='top';
  x.fillText('交通費集計　'+sY+'年'+(sM+1)+'月',pad,22);
  x.font='bold 44px '+F;x.fillText('¥'+D.tot.toLocaleString(),pad,62);
- x.font='20px '+F;x.textAlign='right';x.fillText(D.days+'日・'+D.f.length+'件',W-pad,80);
+ x.textAlign='right';x.font='18px '+F;x.fillText('出勤日数',W-pad,40);x.font='bold 40px '+F;x.fillText(D.days+'日',W-pad,66);
  x.textAlign='left';x.fillStyle='#1a202c';x.font='18px '+F;
  x.fillText('車 ¥'+D.car.toLocaleString()+'　　バイク ¥'+D.bike.toLocaleString()+'　　公共交通 ¥'+D.transit.toLocaleString(),pad,168);
  x.fillStyle='#718096';x.font='15px '+F;
